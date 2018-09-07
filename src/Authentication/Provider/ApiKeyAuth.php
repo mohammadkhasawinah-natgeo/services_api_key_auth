@@ -53,11 +53,7 @@ class ApiKeyAuth implements AuthenticationProviderInterface {
    */
   public function applies(Request $request) {
     // Only apply this validation if request has a valid accept value.
-    $form_api_key = $request->get('api_key');
-    $api_key = isset($form_api_key) ? $form_api_key : $request->query->get('api_key');
-
-    return isset($api_key);
-
+    return $this->getKey($request) !== FALSE;
   }
 
   /**
