@@ -104,6 +104,13 @@ class ApiKeyAuth implements AuthenticationProviderInterface {
    * @return bool
    */
   public function getKey(Request $request) {
+    // Exempt edit/delete form route.
+    if ($request->attributes->has('_route') == TRUE &&
+      ($request->attributes->get('_route') == 'entity.api_key.edit_form' ||
+        $request->attributes->get('_route') == 'entity.api_key.delete_form')) {
+      return FALSE;
+    }
+
     $form_api_key = $request->get('api_key');
     if (!empty($form_api_key)) {
       return $form_api_key;
